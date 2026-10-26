@@ -10,6 +10,8 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
+    "start:dev": "npm run build && node ./dist/main.js | pino-pretty --colorize --translateTime SYS:standard",
+    "test": "npm run build && node --test tests/architecture.test.mjs",
     "cli": "npm run build && node ./dist/cli.js",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
@@ -20,15 +22,25 @@
   },
   "dependencies": {
     "chalk": "5.3.0",
-    "got": "13.0.0"
+    "convict": "6.2.5",
+    "convict-format-with-validator": "6.2.0",
+    "dotenv": "16.6.1",
+    "got": "13.0.0",
+    "inversify": "6.0.2",
+    "pino": "9.14.0",
+    "reflect-metadata": "0.2.2",
+    "tslib": "2.8.1"
   },
   "devDependencies": {
+    "@types/convict": "6.1.6",
+    "@types/convict-format-with-validator": "6.0.6",
     "@types/node": "18.16.3",
     "@typescript-eslint/eslint-plugin": "5.46.0",
     "@typescript-eslint/parser": "5.46.0",
     "eslint": "8.39.0",
     "eslint-config-htmlacademy": "9.1.1",
     "json-server": "0.17.4",
+    "pino-pretty": "10.3.1",
     "rimraf": "3.0.2",
     "ts-node": "10.9.1",
     "typescript": "4.9.5"
