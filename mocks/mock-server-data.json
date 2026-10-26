@@ -1,0 +1,70 @@
+{
+  "offers": [
+    {
+      "title": "Мансарда художника у Люксембургского сада",
+      "description": "Светлая мансарда с книжной полкой и видом на старые крыши Парижа.",
+      "city": {"name": "Paris", "location": {"latitude": 48.85661, "longitude": 2.351499}},
+      "previewImage": "https://example.com/paris-attic-preview.jpg",
+      "images": ["https://example.com/paris-attic-1.jpg", "https://example.com/paris-attic-2.jpg", "https://example.com/paris-attic-3.jpg", "https://example.com/paris-attic-4.jpg", "https://example.com/paris-attic-5.jpg", "https://example.com/paris-attic-6.jpg"],
+      "type": "apartment",
+      "facilities": ["Laptop friendly workspace", "Towels", "Fridge"],
+      "author": {"name": "Клара", "email": "clara@example.com", "avatarPath": "https://example.com/clara.png", "password": "clara123", "type": "pro"},
+      "location": {"latitude": 48.84622, "longitude": 2.33716}
+    },
+    {
+      "title": "Современная студия у Кёльнского собора",
+      "description": "Современная студия на тихой улице в нескольких минутах ходьбы от Рейна.",
+      "city": {"name": "Cologne", "location": {"latitude": 50.938361, "longitude": 6.959974}},
+      "previewImage": "https://example.com/cologne-studio-preview.jpg",
+      "images": ["https://example.com/cologne-studio-1.jpg", "https://example.com/cologne-studio-2.jpg", "https://example.com/cologne-studio-3.jpg", "https://example.com/cologne-studio-4.jpg", "https://example.com/cologne-studio-5.jpg", "https://example.com/cologne-studio-6.jpg"],
+      "type": "apartment",
+      "facilities": ["Breakfast", "Air conditioning", "Washer"],
+      "author": {"name": "Мартин", "email": "martin@example.com", "avatarPath": "https://example.com/martin.jpg", "password": "rhein789", "type": "regular"},
+      "location": {"latitude": 50.94131, "longitude": 6.95828}
+    },
+    {
+      "title": "Семейный таунхаус возле площади Саблон",
+      "description": "Трёхэтажный дом с уютной гостиной и детской комнатой в центре Брюсселя.",
+      "city": {"name": "Brussels", "location": {"latitude": 50.846557, "longitude": 4.351697}},
+      "previewImage": "https://example.com/brussels-house-preview.jpg",
+      "images": ["https://example.com/brussels-house-1.jpg", "https://example.com/brussels-house-2.jpg", "https://example.com/brussels-house-3.jpg", "https://example.com/brussels-house-4.jpg", "https://example.com/brussels-house-5.jpg", "https://example.com/brussels-house-6.jpg"],
+      "type": "house",
+      "facilities": ["Baby seat", "Washer", "Towels", "Fridge"],
+      "author": {"name": "Софи", "email": "sophie@example.com", "avatarPath": "https://example.com/sophie.png", "password": "waffle22", "type": "pro"},
+      "location": {"latitude": 50.84018, "longitude": 4.35501}
+    },
+    {
+      "title": "Комната в старинном доме у канала",
+      "description": "Тихая комната с большими окнами, винтажной мебелью и общей кухней.",
+      "city": {"name": "Amsterdam", "location": {"latitude": 52.370216, "longitude": 4.895168}},
+      "previewImage": "https://example.com/amsterdam-room-preview.jpg",
+      "images": ["https://example.com/amsterdam-room-1.jpg", "https://example.com/amsterdam-room-2.jpg", "https://example.com/amsterdam-room-3.jpg", "https://example.com/amsterdam-room-4.jpg", "https://example.com/amsterdam-room-5.jpg", "https://example.com/amsterdam-room-6.jpg"],
+      "type": "room",
+      "facilities": ["Breakfast", "Laptop friendly workspace", "Towels"],
+      "author": {"name": "Ноа", "email": "noah@example.com", "avatarPath": "https://example.com/noah.jpg", "password": "canal456", "type": "regular"},
+      "location": {"latitude": 52.37465, "longitude": 4.88391}
+    },
+    {
+      "title": "Бутик-отель рядом с портом Гамбурга",
+      "description": "Стильный номер с завтраком и панорамным видом на реку Эльбу.",
+      "city": {"name": "Hamburg", "location": {"latitude": 53.550341, "longitude": 10.000654}},
+      "previewImage": "https://example.com/hamburg-hotel-preview.jpg",
+      "images": ["https://example.com/hamburg-hotel-1.jpg", "https://example.com/hamburg-hotel-2.jpg", "https://example.com/hamburg-hotel-3.jpg", "https://example.com/hamburg-hotel-4.jpg", "https://example.com/hamburg-hotel-5.jpg", "https://example.com/hamburg-hotel-6.jpg"],
+      "type": "hotel",
+      "facilities": ["Breakfast", "Air conditioning", "Towels", "Fridge"],
+      "author": {"name": "Ханна", "email": "hanna@example.com", "avatarPath": "https://example.com/hanna.png", "password": "harbor77", "type": "pro"},
+      "location": {"latitude": 53.54383, "longitude": 9.96639}
+    },
+    {
+      "title": "Дизайнерские апартаменты в Медиагавани",
+      "description": "Просторные апартаменты с ярким интерьером и удобной большой кухней.",
+      "city": {"name": "Dusseldorf", "location": {"latitude": 51.225402, "longitude": 6.776314}},
+      "previewImage": "https://example.com/dusseldorf-loft-preview.jpg",
+      "images": ["https://example.com/dusseldorf-loft-1.jpg", "https://example.com/dusseldorf-loft-2.jpg", "https://example.com/dusseldorf-loft-3.jpg", "https://example.com/dusseldorf-loft-4.jpg", "https://example.com/dusseldorf-loft-5.jpg", "https://example.com/dusseldorf-loft-6.jpg"],
+      "type": "apartment",
+      "facilities": ["Air conditioning", "Laptop friendly workspace", "Washer", "Fridge"],
+      "author": {"name": "Лукас", "email": "lukas@example.com", "avatarPath": "https://example.com/lukas.jpg", "password": "media888", "type": "regular"},
+      "location": {"latitude": 51.21541, "longitude": 6.75418}
+    }
+  ]
+}
