@@ -3,10 +3,10 @@ import {spawnSync} from 'node:child_process';
 import {mkdtempSync, rmSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {fileURLToPath} from 'node:url';
 import {test} from 'node:test';
 
-const entry = fileURLToPath(new URL('../dist/main.js', import.meta.url));
+const containerUrl = new URL('../dist/container.js', import.meta.url).href;
+const componentUrl = new URL('../dist/shared/types/component.enum.js', import.meta.url).href;
 const validEnv = {PORT: '4000', DB_HOST: '127.0.0.1', SALT: 'test-random-salt'};
 
 function runApplication(settings = {}, dotenv) {
@@ -22,7 +22,14 @@ function runApplication(settings = {}, dotenv) {
       writeFileSync(join(cwd, '.env'), dotenv);
     }
 
-    const result = spawnSync(process.execPath, [entry], {
+    // Проверки конфигурации не требуют доступного сервера MongoDB.
+    const script = `
+      import {container} from ${JSON.stringify(containerUrl)};
+      import {Component} from ${JSON.stringify(componentUrl)};
+      container.rebind(Component.DatabaseClient).toConstantValue({connect: async () => {}, disconnect: async () => {}});
+      await import(${JSON.stringify(new URL('../dist/main.js', import.meta.url).href)});
+    `;
+    const result = spawnSync(process.execPath, ['--input-type=module', '-e', script], {
       cwd,
       env: {...env, ...settings},
       encoding: 'utf8',

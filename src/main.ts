@@ -8,7 +8,7 @@ const logger = container.get<Logger>(Component.Logger);
 
 try {
   const application = container.get<Application>(Component.Application);
-  application.init();
+  await application.init();
 } catch (error: unknown) {
   logger.error('Не удалось инициализировать приложение.', error instanceof Error ? error : new Error(String(error)));
   process.exitCode = 1;

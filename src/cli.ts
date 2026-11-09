@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import {createReadStream} from 'node:fs';
-import {mkdir, readFile} from 'node:fs/promises';
+import 'reflect-metadata';
+import {mkdir, open, readFile} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {createInterface} from 'node:readline';
 import chalk from 'chalk';
@@ -11,6 +11,11 @@ import {generateOffer} from './helpers/generate-offer.js';
 import {offerToTsv} from './helpers/offer-to-tsv.js';
 import {TSVFileWriter} from './helpers/tsv-file-writer.js';
 import {MockOffer} from './types/mock-offer.type.js';
+import {container} from './container.js';
+import {Component} from './shared/types/component.enum.js';
+import {DatabaseClient} from './shared/libs/database-client/database-client.interface.js';
+import {UserService} from './shared/modules/user/user-service.interface.js';
+import {OfferService} from './shared/modules/offer/offer-service.interface.js';
 
 const HELP_TEXT = `
 Программа для подготовки данных для REST API сервера.
@@ -20,7 +25,7 @@ const HELP_TEXT = `
 Команды:
   --version                   выводит номер версии
   --help                      печатает этот текст
-  --import <path>             импортирует данные из TSV
+  --import <path> <uri> <salt> импортирует TSV в MongoDB (URI подключения и соль паролей)
   --generate <n> <path> <url> генерирует произвольное количество тестовых данных
 `;
 
@@ -33,29 +38,48 @@ async function showVersion(): Promise<void> {
   console.log(chalk.green(packageData.version));
 }
 
-async function importOffers(filePath: string | undefined): Promise<void> {
-  if (!filePath) {
-    throw new Error('Укажите путь к TSV-файлу после команды --import.');
+async function importOffers(filePath: string | undefined, uri: string | undefined, salt: string | undefined): Promise<void> {
+  if (!filePath || !uri || !salt?.trim()) {
+    throw new Error('Использование: --import <path> <mongodb-uri> <salt>.');
   }
 
-  // Файл читается потоком построчно, поэтому в памяти не держится целиком
-  // и можно импортировать файлы любого размера (в том числе > 2GB).
-  const fileStream = createReadStream(filePath, {encoding: 'utf-8', highWaterMark: READ_CHUNK_SIZE});
-  const lines = createInterface({input: fileStream, crlfDelay: Infinity});
-  let importedOffers = 0;
+  if (!/^mongodb(?:\+srv)?:\/\//.test(uri)) {
+    throw new Error('URI должен начинаться с mongodb:// или mongodb+srv://.');
+  }
 
-  for await (const line of lines) {
-    if (!line.trim()) {
-      continue;
+  const databaseClient = container.get<DatabaseClient>(Component.DatabaseClient);
+  const userService = container.get<UserService>(Component.UserService);
+  const offerService = container.get<OfferService>(Component.OfferService);
+
+  try {
+    await databaseClient.connect(uri);
+    const file = await open(filePath, 'r');
+
+    const fileStream = file.createReadStream({encoding: 'utf-8', highWaterMark: READ_CHUNK_SIZE});
+    const lines = createInterface({input: fileStream, crlfDelay: Infinity});
+    let importedOffers = 0;
+
+    try {
+      for await (const line of lines) {
+        if (!line.trim()) {
+          continue;
+        }
+
+        const offer = createOffer(line);
+        const author = (await userService.findByEmail(offer.author.email)) ?? await userService.create(offer.author, salt);
+        await offerService.create({...offer, author: author._id});
+        importedOffers++;
+      }
+    } finally {
+      lines.close();
+      fileStream.destroy();
+      await file.close();
     }
 
-    const offer = createOffer(line);
-    importedOffers++;
-
-    console.log(chalk.cyan(`Предложение №${importedOffers}: ${offer.title} (${offer.city.name}, ${offer.price} €)`));
+    console.log(chalk.green(`Импорт завершён. Загружено предложений: ${importedOffers}.`));
+  } finally {
+    await databaseClient.disconnect();
   }
-
-  console.log(chalk.green(`Импорт завершён. Загружено предложений: ${importedOffers}.`));
 }
 
 async function loadMockOffers(url: string): Promise<MockOffer[]> {
@@ -112,7 +136,7 @@ async function run(): Promise<void> {
       await showVersion();
       break;
     case '--import':
-      await importOffers(commandArguments[0]);
+      await importOffers(commandArguments[0], commandArguments[1], commandArguments[2]);
       break;
     case '--generate':
       await generateOffers(commandArguments[0], commandArguments[1], commandArguments[2]);
