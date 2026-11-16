@@ -144,6 +144,24 @@ winget install --id MongoDB.Compass.Full --exact
 
 ## Структура проекта
 
+### Спецификация REST API
+
+Контракт API описан в [specification/specification.yml](specification/specification.yml)
+в формате OpenAPI 3.0.3. Это спецификация для последующей реализации HTTP-сервера.
+
+Для работы в VS Code установите расширения `mermade.openapi-lint` и
+`42Crunch.vscode-openapi`. Откройте файл спецификации, вызовите палитру команд
+(`Ctrl+Shift+P`) и выберите `OpenAPI: show preview using Swagger UI`.
+
+Проверка спецификации без добавления зависимостей в проект:
+
+```bash
+npx --yes @redocly/cli lint --extends minimal specification/specification.yml
+```
+
+Предупреждение о `localhost` допустимо: в `servers` указан локальный сервер
+разработки. Если значение `PORT` отличается от `4000`, измените URL при обращении к API.
+
 ### Директория `src`
 
 Исходный код проекта организован по следующим правилам:
