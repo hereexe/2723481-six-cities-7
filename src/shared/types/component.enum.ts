@@ -7,4 +7,6 @@ export enum Component {
   UserService = 'UserService',
   OfferModel = 'OfferModel',
   OfferService = 'OfferService',
+  CommentModel = 'CommentModel',
+  CommentService = 'CommentService',
 }

@@ -1,8 +1,12 @@
 import {HydratedDocument, model, Schema, Types} from 'mongoose';
 import {Offer} from '../../../types/offer.type.js';
 
-export type CreateOffer = Omit<Offer, 'author'> & {author: Types.ObjectId};
-export type OfferEntity = CreateOffer & {createdAt: Date; updatedAt: Date};
+export type OfferEntity = Omit<Offer, 'author' | 'isFavorite'> & {
+  author: Types.ObjectId;
+  ratingTotal: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
 export type OfferDocument = HydratedDocument<OfferEntity>;
 
 const locationSchema = new Schema({latitude: Number, longitude: Number}, {_id: false});
@@ -16,8 +20,8 @@ const offerSchema = new Schema<OfferEntity>({
   previewImage: String,
   images: [String],
   isPremium: Boolean,
-  isFavorite: Boolean,
-  rating: Number,
+  rating: {type: Number, default: 0},
+  ratingTotal: {type: Number, default: 0, select: false},
   type: String,
   rooms: Number,
   guests: Number,

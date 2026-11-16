@@ -14,6 +14,9 @@ import {UserService} from './shared/modules/user/user-service.interface.js';
 import {OfferModel} from './shared/modules/offer/offer.entity.js';
 import {DefaultOfferService} from './shared/modules/offer/default-offer.service.js';
 import {OfferService} from './shared/modules/offer/offer-service.interface.js';
+import {CommentModel} from './shared/modules/comment/comment.entity.js';
+import {CommentService} from './shared/modules/comment/comment-service.interface.js';
+import {DefaultCommentService} from './shared/modules/comment/default-comment.service.js';
 
 export const container = new Container();
 
@@ -25,3 +28,5 @@ container.bind(Component.UserModel).toConstantValue(UserModel);
 container.bind<UserService>(Component.UserService).to(DefaultUserService).inSingletonScope();
 container.bind(Component.OfferModel).toConstantValue(OfferModel);
 container.bind<OfferService>(Component.OfferService).to(DefaultOfferService).inSingletonScope();
+container.bind(Component.CommentModel).toConstantValue(CommentModel);
+container.bind<CommentService>(Component.CommentService).to(DefaultCommentService).inSingletonScope();

@@ -1,7 +1,7 @@
-import {HydratedDocument, model, Schema} from 'mongoose';
+import {HydratedDocument, model, Schema, Types} from 'mongoose';
 import {User} from '../../../types/user.type.js';
 
-export type UserEntity = User & {createdAt: Date; updatedAt: Date};
+export type UserEntity = User & {favoriteOffers: Types.ObjectId[]; createdAt: Date; updatedAt: Date};
 export type UserDocument = HydratedDocument<UserEntity>;
 
 const userSchema = new Schema<UserEntity>({
@@ -10,6 +10,7 @@ const userSchema = new Schema<UserEntity>({
   avatarPath: String,
   password: {type: String, required: true},
   type: {type: String, required: true},
+  favoriteOffers: [{type: Schema.Types.ObjectId, ref: 'Offer'}],
 }, {collection: 'users', timestamps: true});
 
 export const UserModel = model<UserEntity>('User', userSchema);
